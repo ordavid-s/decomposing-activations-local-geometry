@@ -1,14 +1,22 @@
 ## decomposing-activations-local-geometry
 
-This is the official repository for **“From Directions to Regions: Decomposing Activations in Language Models via Local Geometry”** (Or Shafran, Shaked Ronen, Omri Fahn, Shauli Ravfogel, Atticus Geiger, Mor Geva). 2026.
+This is the official repository for **From Directions to Regions: Decomposing Activations in Language Models via Local Geometry** (Or Shafran, Shaked Ronen, Omri Fahn, Shauli Ravfogel, Atticus Geiger, Mor Geva), 2026.
 
-We’ve uploaded an **end-to-end tutorial** that walks through the core MFA workflow:
+Currently the repo contains:
+- An end-to-end MFA tutorial for training, interpretation, visualization, and steering
+- A lightweight guide for loading pretrained MFA checkpoints
+- Code for FSDP-based multi-GPU training and saving/loading.
 
-* **Training** an MFA on model activations
-* **Interpreting** regions (centroids) and their **local directions of variation**
-* **Visualizing** subspaces
-* **Steering** using region-level structure and local subspaces
+### Pretrained MFAs
 
-**Coming soon:** additional code to **recreate the paper experiments**, along with **released trained MFAs** for **Llama-3.1-8B** and **Gemma-2-2B**.
+We include a dedicated loading flow for pretrained checkpoints, including download from Hugging Face and instantiating the MFA.
 
-For any questions, feel free to reach out!
+Currently available pretrained checkpoints are the **8k MFAs**:
+- **Gemma-2-2B**: layers 6 and 18
+- **Llama-3.1-8B**: layers 8 and 22
+
+### More coming soon
+
+We will continue releasing additional pretrained MFAs and broader model/layer coverage, along with more code for reproducing paper experiments.
+
+For questions, feel free to reach out.
