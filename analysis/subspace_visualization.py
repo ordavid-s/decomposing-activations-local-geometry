@@ -21,9 +21,7 @@ def project_loader_to_subspace(
     Projects only points that belong to component k (by hard argmax or alpha-threshold)
     onto span(U_k) to get subspace coordinates. Uses m_perp for centering if center=True.
 
-    Works for:
-      - MFA models exposing:   mu (K,D), _dir_hat()->(K,D,q), responsibilities(x,tau)
-      - MPPCA models exposing: mu (K,D), _W_factored()->(W, dir_hat, scale), responsibilities(x,tau)
+        Expects an MFA-like model exposing mu, loadings, and responsibilities(x, tau).
 
     Notes:
       - U_k are unit 'dir' columns (not guaranteed orthonormal).
@@ -42,7 +40,7 @@ def project_loader_to_subspace(
         }
     """
 
-    # ---- helpers to unify MFA / MPPCA ----
+    # Resolve loadings from whichever MFA interface is available.
     def get_dirs_and_mu(m):
         # Preferred: use public W (already rotated if rotation is enabled)
         if hasattr(m, "W"):
@@ -51,20 +49,10 @@ def project_loader_to_subspace(
             U = W / (W.norm(dim=1, keepdim=True).clamp_min(1e-8))
             return U, m.mu
 
-        # Fallbacks for older models
-        if hasattr(m, "_W_factored"):  # may return unrotated pieces
-            W, dir_hat, _scale = m._W_factored()
-            # Try to prefer W if available (in case it’s already rotated),
-            # otherwise fall back to dir_hat.
-            if W is not None:
-                U = W / (W.norm(dim=1, keepdim=True).clamp_min(1e-8))
-                return U, m.mu
-            return dir_hat, m.mu
-
-        if hasattr(m, "_dir_hat"):  # last resort (unrotated)
+        if hasattr(m, "_dir_hat"):
             return m._dir_hat(), m.mu
 
-        raise AttributeError("Model must provide loadings via W/_W_factored/_dir_hat.")
+        raise AttributeError("Model must provide loadings via W or _dir_hat.")
 
 
     def chol_with_jitter(G, max_tries=6, eps0=1e-8, growth=10.0):
