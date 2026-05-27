@@ -1,6 +1,6 @@
 ## decomposing-activations-local-geometry
 
-This is the official repository for **From Directions to Regions: Decomposing Activations in Language Models via Local Geometry** (Or Shafran, Shaked Ronen, Omri Fahn, Shauli Ravfogel, Atticus Geiger, Mor Geva), 2026.
+This is the official repository for **From Directions to Regions: Decomposing Activations in Language Models via Local Geometry** (Or Shafran, Shaked Ronen, Omri Fahn, Shauli Ravfogel, Atticus Geiger, Mor Geva), Accepted at ICML 2026.
 
 Currently the repo contains:
 - An end-to-end MFA tutorial for training, interpretation, visualization, and steering
